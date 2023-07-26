@@ -62,7 +62,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "tutorial"
+name = "rust-tutorial"
 version = "0.1.0"
 dependencies = [
  "rand",

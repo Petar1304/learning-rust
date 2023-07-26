@@ -1,12 +1,17 @@
 #![allow(unused)]
 
+use std::f32::consts::PI;
 use std::fmt::Display;
 use std::io;
 use rand::Rng;
 use std::io::{Write, BufReader, BufRead, ErrorKind};
 use std::fs::File;
 use std::cmp::Ordering;
-use std::ops::Add;
+use std::ops::{Add, Index};
+use std::collections::HashMap;
+
+mod restaurant;
+use crate::restaurant::order_food;
 
 fn say_hello() {
     println!("What is your name?");
@@ -232,17 +237,153 @@ fn get_sum_gen<T:Add<Output = T>>(x: T, y: T) -> T {
 2) There is only one owner at a time
 3) When the owner goes out of scope the value disappears
 
-
 */
 
-
-
-fn main() {
-
+fn vector_stuff() {
     let mut vector = Vec::from([1, 2, 3]);
     println!("Vector = {:?}", vector);
     change_vec(&mut vector);
     println!("Vector = {:?}", vector);
 
     println!("5.313 + 3.224 = {}", get_sum_gen(5.313, 3.224));
+}
+
+fn clone_ref_stuff() {
+    let mut str1 = String::from("Worlds");
+    let str1_copy = str1.clone();
+    let mut str2 = &mut str1;
+    *str2 = "worlds".to_string();
+    println!("Hello {}", str1);
+
+}
+
+fn print_str(str: &String) {
+    println!("String = {}", str);
+}
+
+fn change_string(str: &mut String) {
+    str.push_str(" some more strings");
+}
+
+fn more_strings() {
+    let mut str = String::from("Some String");
+    print_str(&str);
+    println!("{}", str);
+    change_string(&mut str);
+    println!("{}", str);
+}
+
+fn hash_maps() {
+    let mut map = HashMap::new();
+    map.insert(0x134, "Password");
+    map.insert(0x535, "user2");
+
+    for (k, v) in map.iter() {
+        println!("Key: {}, Value: {}", k, v);
+    }
+
+    println!("Length: {}", map.len());
+
+    if map.contains_key(&0x134) {
+        let pswd = map.get(&0x134).unwrap();
+        println!("Pswd: {}", pswd);
+    }
+
+    let val = map.get(&0x14).unwrap_or(&"none");
+    println!("Value = {}", val);
+}
+
+fn structs() {
+    struct Customer {
+        name: String,
+        address: String,
+        balance: f32,
+    }
+    let mut bob: Customer = Customer { name: "Bob".to_string(), address: "Kotor 34".to_string(), balance: 500.3 };
+    println!("{}", bob.name);
+}
+
+fn shapes() {
+    struct Rectangle<T, U> {
+        length: T,
+        height: U,
+    }
+    let rec: Rectangle<i32, f32> = Rectangle { length: 4, height: 3.53 };
+    // like an interface 
+    trait Shape {
+        fn new(length: f32, width: f32) -> Self;
+        fn area(&self) -> f32;
+    }
+}
+
+fn more_shapes() {
+    trait Shape {
+        fn new(length: f32, width: f32) -> Self;
+        fn area(&self) -> f32;
+    }
+    struct Rectangle {length: f32, width: f32};
+    struct Circle {length: f32, width: f32};
+
+    impl Shape for Rectangle {
+        fn new(length: f32, width: f32) -> Rectangle {
+            return Rectangle{length, width};
+        }
+        fn area(&self) -> f32 {
+            return self.length * self.width;
+        }
+    }
+
+    impl Shape for Circle {
+        fn new(length: f32, width: f32) -> Self {
+            Circle { length, width }    
+        }
+        fn area(&self) -> f32 {
+            PI * (self.length / 2.0).powf(2.0)
+        }
+    }
+
+    let rec: Rectangle = Shape::new(1.42, 5.2);
+    println!("Rectangle area = {}", rec.area());
+
+    let circle: Circle = Shape::new(4.13, 0.4);
+    println!("Circle area = {}", circle.area());
+
+}
+
+
+fn file_handling() {
+    let path = "lines.txt";
+    let output = File::create(path);
+    let mut output = match output {
+        Ok(file) => file,
+        Err(error) => panic!("We have a problem...")
+    };
+    write!(output, "Just some text\nRandom words").expect("Failed to write to file");
+
+    let input = File::open(path).unwrap();
+    let buffered = BufReader::new(input);
+    
+    for line in buffered.lines() {
+        // println!("{:?}", line);
+        println!("{}", line.unwrap());
+    } 
+}
+
+fn iterators() {
+    let mut arr_it = [1, 2, 3, 4];
+    for val in arr_it.iter() {
+        println!("{}", val);
+    }
+    let mut iter1 = arr_it.iter();
+    println!("1st: {}", iter1.next().unwrap());
+    println!("2st: {}", iter1.next().unwrap());
+}
+
+fn closures() {
+    // let var_name = |parameter| -> return_type
+    
+}
+
+fn main() {
+    closures();
 }
