@@ -12,6 +12,8 @@ use std::collections::HashMap;
 
 mod restaurant;
 use crate::restaurant::order_food;
+mod algorithms;
+use crate::algorithms::algorithms::sort_vector;
 
 fn say_hello() {
     println!("What is your name?");
@@ -381,9 +383,24 @@ fn iterators() {
 
 fn closures() {
     // let var_name = |parameter| -> return_type
-    
+    let can_vote = |age: i32| {
+        age >= 18
+    };
+    // println!("Can vote: {}", can_vote(28));
+
+    let mut samp = 5;
+    let print_var = || println!("sample = {}", samp);
+    print_var();
+}
+// crate::algorithms::algorithms::sort_floats();
+
+fn smart_pointers() {
+
+   let b_int1 = Box::new(10); 
+
 }
 
+
 fn main() {
-    closures();
+    smart_pointers();
 }
