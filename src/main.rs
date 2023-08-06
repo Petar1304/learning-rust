@@ -142,6 +142,33 @@ fn type_casting() {
     let string_num = num4.to_string();
 }
 
+fn is_palindrom(word: &String) -> bool {
+    let not_rev = word.chars().collect::<Vec<char>>(); 
+    let rev = word.chars().rev().collect::<Vec<char>>();
+    rev == not_rev
+}
+
+#[derive(Debug)]
+struct Rect {
+    w: u32,
+    h: u32,
+}
+
+impl Rect {
+    fn square(size: u32) -> Self {
+        Self {
+            w: size,
+            h: size,
+        }
+    }
+    fn area(&self) -> u32 {
+        self.w * self.h
+    }
+    fn width(&self) -> bool {
+        self.w > 0
+    } 
+}
+
 fn enum_example() {
     enum Day {
         Monday,
